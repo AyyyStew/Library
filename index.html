@@ -4,10 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <title>Shelf of Books</title>
 </head>
 <body>
-    <p>hello</p>
+    <div id="bookshelf">
+        <div class="bookCard-wrapper">
+            <div class="addBook">
+                <h2>Add Book</h2>
+                <img class="add" src="images/add_circle_outline-24px.svg">
+            </div>
+        </div>
+        <div class="bookCard-wrapper">
+            <form class="addBook-form" autocomplete="off">
+                <label id="title-label" for="title">Title</label>
+                <input id="title" type="text" placeholder="Title">
+
+                <label id="author-label" for="author">Author</label>
+                <input id="author" type="text" placeholder="Author">
+
+                <label id="pages-label" for="completed">Pages</label>
+                <input id="pages" type="number" placeholder="Pages">
+
+                <label id="completed-label" for="completed">Completed?</label>
+                <input id="completed" type="checkbox" placeholder="Completed">
+
+                <img class="add" src="images/add_circle_outline-24px.svg">
+                <img class="cancel" src="images/highlight_off-24px.svg">
+        </div>
+    </div>
+
     <script src="library.js"></script>
 </body>
 </html>

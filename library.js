@@ -1,3 +1,13 @@
+//utility functions
+function htmlToElement(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+
+
+//actual project
 //constructor function
 function Book(title, author, pages, isRead){
     this.title = title
@@ -19,8 +29,36 @@ function addBookToLibary(book){
 
 function displayBooks(){
     const bookshelf = document.getElementById("bookshelf")
-
-    
-
-    myLibrary.forEach(book => console.log(book.info()))
+    myLibrary.forEach(book => { 
+        bookshelf.appendChild(
+            htmlToElement(`
+                <div class="bookCard-wrapper">
+                    <div class="bookCard">    
+                        <h2>${book.title}</h2>
+                        <h3>${book.author}</h3>
+                        <p>${book.pages}</p>
+                        <p>${book.isRead ? "Completed" : "Incomplete"}</p>
+                    </div>
+                </div>`
+            )
+        )
+    })
 }
+
+
+for (let i = 0; i<10;i++){
+    addBookToLibary(new Book("Man and His Symbols", "Carl Jung", 300, true))
+}
+displayBooks()
+
+
+function hueShiftBooks(){
+    const books = document.getElementById("bookshelf").children
+    for(let book of books){
+        console.log(book)
+        book.setAttribute("style", `filter:hue-rotate(${Math.floor(Math.random() *360)}deg)`)
+        console.log(book)
+    }
+}
+
+hueShiftBooks()

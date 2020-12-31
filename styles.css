@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+body{
+    background-color: tan;
+}
+
+
+#bookshelf{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+    grid-template-rows: 1fr;
+    gap: 3%
+}
+
+.bookCard-wrapper{
+    background-image: url("images/book.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding-bottom: 122%;
+    height: 0px;
+}
+
+.bookCard-wrapper>*{
+    background-color: transparent;
+    margin-top: 5%;
+    margin-left: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.bookCard{
+    margin-top: 10%;
+}
+
+.bookCard>*{
+    margin-top: 10%;
+}
+
+.addBook{
+    margin-top: 30%;
+    text-align: center;
+    margin-left: 20%;
+}
+
+.addBook>.add{
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+#title{
+    grid-area: title;
+}
+
+#author{
+    grid-area: auth;
+}
+
+#pages{
+    grid-area: pages;
+}
+
+#completed-label{
+    grid-area: label;
+}
+
+#completed{
+    grid-area: completed;
+}
+
+
+.addBook-form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: ;
+    grid-template-areas: 
+        "title  title"
+        "auth   auth"
+        "pages  pages"
+        "label  completed"
+        "add    cancel"
+    ;
+    padding-top: 5%;
+    /* gap: 7% 0; */
+    align-items: center;
+}
+
+.addBook-form>*{
+    padding-top: 3%;
+    margin-top: 10%;
+    font-size: 14px;
+}
+
+.addBook-form>input{
+    background-color: transparent;
+    margin-top: 5%;
+    width: 90%;
+
+    border: 0px;
+    border-bottom: 1px dashed;
+
+    background-color: #ffffff;
+    opacity: 80%;
+}
+
+.addBook-form>#completed{
+    width: auto;
+}
+
+.addBook-form>img{
+    width: 50%;
+}
+
+
