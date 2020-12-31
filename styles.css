@@ -76,30 +76,18 @@ body{
 
 
 .addBook-form{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: ;
-    grid-template-areas: 
-        "title  title"
-        "auth   auth"
-        "pages  pages"
-        "label  completed"
-        "add    cancel"
-    ;
-    padding-top: 5%;
-    /* gap: 7% 0; */
-    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .addBook-form>*{
     padding-top: 3%;
-    margin-top: 10%;
+    margin-top: 1%;
     font-size: 14px;
 }
 
 .addBook-form>input{
     background-color: transparent;
-    margin-top: 5%;
     width: 90%;
 
     border: 0px;
@@ -109,12 +97,18 @@ body{
     opacity: 80%;
 }
 
-.addBook-form>#completed{
-    width: auto;
+#completed{
+    float: right;
+    margin-right: 10%;
 }
 
-.addBook-form>img{
-    width: 50%;
+#addBook>.add{
+    float: left;
+    padding-left: 20%;
+}
+#addBook>.cancel{
+    padding-right: 20%;
+    float: right;
 }
 
 
