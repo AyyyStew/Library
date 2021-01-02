@@ -55,7 +55,7 @@ displayBooks()
 function hueShiftBooks(){
     const books = document.getElementById("bookshelf").children
     for(let book of books){
-        console.log(book)
+        // console.log(book)
         //hueshift the div containing the book background image
         const hueShift = Math.floor(Math.random() *360) //random int from 0 to 360
         book.setAttribute("style", `filter:hue-rotate(${hueShift}deg)`)
@@ -65,8 +65,69 @@ function hueShiftBooks(){
             contents.setAttribute("style", `filter:hue-rotate(${-hueShift}deg)`)
         }
 
-        console.log(book)
+        // console.log(book)
     }
 }
+
+const addBookButton = document.getElementById("addBookButton")
+addBookButton.addEventListener('click', ()=>{
+    const addBookForm = htmlToElement(
+        `<div class="bookCard-wrapper">
+            <form class="addBook-form" autocomplete="off">
+                <label id="title-label" for="title">Title</label>
+                <input required id="title" type="text" placeholder="Title">
+
+                
+                <label id="author-label" for="author">Author</label>
+                <input required id="author" type="text" placeholder="Author">
+
+                <label id="pages-label" for="completed">Pages</label>
+                <input required id="pages" type="number" placeholder="Pages">
+
+                <div id="completed-wrapper">
+                    <label id="completed-label" for="completed">Completed?</label>
+                    <input required id="completed" type="checkbox" placeholder="Completed">
+                </div>
+
+                <div id="addBook">
+                    <img class="add" src="images/add_circle_outline-24px.svg">
+                    <img class="cancel" src="images/highlight_off-24px.svg">
+                </div>
+            </form> 
+        </div>`)
+
+
+    //add book form to the page
+    addBookButton.insertAdjacentElement('afterend', addBookForm)
+
+    //add button submisison
+    addBookForm.getElementsByClassName("add")[0].addEventListener('click', ()=>{
+
+        //form validation and parameterization
+        const form = addBookForm.getElementsByClassName("addBook-form")[0]
+        let values = []
+        for(field of form){
+            if (field.type === "checkbox"){
+                //get the checkbox value
+                values.push(field.checked)
+            } else {
+                //make sure somethign is entered in all fields and that numbers are entered for pages
+                if (field.value === ""){
+                    if (field.type === "number") return alert("Not a valid number of pages.")
+                    else return alert("Please enter all fields.")
+                }
+                
+                values.push(field.value)
+            } 
+        }
+
+        //add new book to library
+        addBookToLibary(new Book(...values))
+    })
+
+
+
+
+})
 
 hueShiftBooks()
