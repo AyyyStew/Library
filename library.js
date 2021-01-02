@@ -90,6 +90,38 @@ addBookButton.addEventListener('click', ()=>{
 
 })
 
+function hueShiftBook(book, title){
+    //https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
+    //this next snippet adds a method to produce a hash from a string. more specifically java's hashcode algorithm.
+    //we are using this to get a consistent numerical representation of a string.
+    const getHashCode = function(str) {
+        var hash = 0;
+        if (str.length == 0) return hash;
+        for (var i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        console.log(hash)
+        return hash;
+    };
+
+    //this is to convert that hash to a number between 0 and 360 
+    const intToHueShift = function(int) {
+        var shortened = int % 360;
+        return shortened;
+    };
+    
+    const hueShift = intToHueShift(getHashCode(title))
+    console.log(hueShift)
+    book.setAttribute("style", `filter:hue-rotate(${hueShift}deg)`)
+    
+
+    //this is to de hueshift the contents of the book
+    for (let contents of book.children){
+        contents.setAttribute("style", `filter:hue-rotate(${-hueShift}deg)`)
+    }
+}
+
 
 function displayBook(book){
     const bookshelf = document.getElementById("bookshelf")
@@ -103,6 +135,7 @@ function displayBook(book){
                 </div>
             </div>`)
     
+    hueShiftBook(newBook, book.title)
     addBookButton.insertAdjacentElement('afterend', newBook)
 
 }
@@ -113,28 +146,4 @@ function displayLibrary(){
     })
 }
 
-
-for (let i = 0; i<20;i++){
-    addBookToLibary(new Book("Man and His Symbols", "Carl Jung", 300, true))
-}
 displayLibrary()
-
-
-function hueShiftBooks(){
-    const books = document.getElementById("bookshelf").children
-    for(let book of books){
-        // console.log(book)
-        //hueshift the div containing the book background image
-        const hueShift = Math.floor(Math.random() *360) //random int from 0 to 360
-        book.setAttribute("style", `filter:hue-rotate(${hueShift}deg)`)
-        
-        //this is to de hueshift the contents of the book
-        for (let contents of book.children){
-            contents.setAttribute("style", `filter:hue-rotate(${-hueShift}deg)`)
-        }
-
-        // console.log(book)
-    }
-}
-
-hueShiftBooks()
