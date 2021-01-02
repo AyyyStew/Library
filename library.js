@@ -56,7 +56,15 @@ function hueShiftBooks(){
     const books = document.getElementById("bookshelf").children
     for(let book of books){
         console.log(book)
-        book.setAttribute("style", `filter:hue-rotate(${Math.floor(Math.random() *360)}deg)`)
+        //hueshift the div containing the book background image
+        const hueShift = Math.floor(Math.random() *360) //random int from 0 to 360
+        book.setAttribute("style", `filter:hue-rotate(${hueShift}deg)`)
+        
+        //this is to de hueshift the contents of the book
+        for (let contents of book.children){
+            contents.setAttribute("style", `filter:hue-rotate(${-hueShift}deg)`)
+        }
+
         console.log(book)
     }
 }
