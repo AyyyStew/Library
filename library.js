@@ -6,6 +6,19 @@ function htmlToElement(html) {
     return template.content.firstChild;
 }
 
+//https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
+//this next snippet adds a method to produce a hash from a string. more specifically java's hashcode algorithm.
+//we are using this to get a consistent numerical representation of a string.
+function getHashCode(str) {
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+};
+
 
 //actual project
 //constructor function
@@ -13,13 +26,24 @@ function Book(title, author, pages, isRead){
     this.title = title
     this.author = author
     this.pages = pages
-    this.isRead = isRead 
+    this.isRead = isRead
 }
 
 //book collection
-let myLibrary = [];
+let myLibrary = {};
 function addBookToLibary(book){
-    myLibrary.push(book)
+    //this is used to tie book to library object.
+    //also used to make sure book doesn't exist in library already
+    let id = String(getHashCode(book.title + book.author + String(book.pages)))
+
+    if (myLibrary[id] !== undefined){
+        alert("This book already exists. Please edit existing book.")
+        return false
+    }
+
+    myLibrary[id] = book
+    return true
+
 }
 
 const addBookButton = document.getElementById("addBookButton")
@@ -76,8 +100,9 @@ addBookButton.addEventListener('click', ()=>{
 
         //add new book to library
         let newBook = new Book(...values)
-        displayBook(newBook)
-        addBookToLibary(new Book)
+        if (addBookToLibary(newBook)){
+            displayBook(newBook)
+        }
 
         addBookForm.remove()
     })
@@ -91,20 +116,6 @@ addBookButton.addEventListener('click', ()=>{
 })
 
 function hueShiftBook(book, title){
-    //https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
-    //this next snippet adds a method to produce a hash from a string. more specifically java's hashcode algorithm.
-    //we are using this to get a consistent numerical representation of a string.
-    const getHashCode = function(str) {
-        var hash = 0;
-        if (str.length == 0) return hash;
-        for (var i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        console.log(hash)
-        return hash;
-    };
-
     //this is to convert that hash to a number between 0 and 360 
     const intToHueShift = function(int) {
         var shortened = int % 360;
@@ -112,7 +123,7 @@ function hueShiftBook(book, title){
     };
     
     const hueShift = intToHueShift(getHashCode(title))
-    console.log(hueShift)
+    // console.log(hueShift)
     book.setAttribute("style", `filter:hue-rotate(${hueShift}deg)`)
     
 
@@ -141,9 +152,15 @@ function displayBook(book){
 }
 
 function displayLibrary(){
-    myLibrary.forEach(book => { 
-        displayBook(book)
-    })
+    for (let id in myLibrary){
+        console.log(id)
+        displayBook(myLibrary[id])
+    }
+}
+
+
+for (let i = 0; i<10; i++){
+    addBookToLibary(new Book("a", "a", i, false))
 }
 
 displayLibrary()
