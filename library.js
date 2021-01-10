@@ -143,6 +143,10 @@ function displayBook(book){
                     <h3>${book.author}</h3>
                     <p>${book.pages}</p>
                     <p>${book.isRead ? "Completed" : "Incomplete"}</p>
+                    <div class="editBookButtons">
+                        <img class="edit" src="images/create-24px.svg">
+                        <img class="delete" src="images/delete-24px.svg">    
+                    </div>
                 </div>
             </div>`)
     

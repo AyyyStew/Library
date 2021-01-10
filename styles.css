@@ -12,9 +12,10 @@ body{
 
 #bookshelf{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 225px));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 225px));
     grid-template-rows: 1fr;
-    gap: 3%
+    gap: 3vw 3vh;
+    justify-content: center;
 }
 
 .bookCard-wrapper{
@@ -41,6 +42,20 @@ body{
 
 .bookCard>*{
     margin-top: 10%;
+}
+
+.edit{
+    filter:invert();
+    float: right;
+    margin-right: 16%;
+    width: 16%;
+}
+
+.delete{
+    filter:invert();
+    float: left;
+    width: 16%;
+
 }
 
 .addBook{
