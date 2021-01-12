@@ -52,24 +52,23 @@ function addBookToLibary(book){
 
 }
 
-const addBookButton = document.getElementById("addBookButton")
-addBookButton.addEventListener('click', ()=>{
+function createAddBookForm(title="", author="", pages="", completed=false){
     const addBookForm = htmlToElement(
         `<div class="bookCard-wrapper">
             <form class="addBook-form" autocomplete="off">
                 <label id="title-label" for="title">Title</label>
-                <input required id="title" type="text" placeholder="Title">
+                <input required id="title" type="text" value="${title}" placeholder="Title">
 
                 
                 <label id="author-label" for="author">Author</label>
-                <input required id="author" type="text" placeholder="Author">
+                <input required id="author" type="text" value="${author}" placeholder="Author">
 
                 <label id="pages-label" for="completed">Pages</label>
-                <input required id="pages" type="number" placeholder="Pages">
+                <input required id="pages" type="number" value="${pages}" placeholder="Pages">
 
                 <div id="completed-wrapper">
                     <label id="completed-label" for="completed">Completed?</label>
-                    <input required id="completed" type="checkbox" placeholder="Completed">
+                    <input required id="completed" ${completed? "checked" : ""} type="checkbox" placeholder="Completed">
                 </div>
 
                 <div id="addBook">
@@ -80,8 +79,6 @@ addBookButton.addEventListener('click', ()=>{
         </div>`)
 
 
-    //add book form to the page
-    addBookButton.insertAdjacentElement('afterend', addBookForm)
 
     //add button submisison
     addBookForm.getElementsByClassName("add")[0].addEventListener('click', ()=>{
@@ -114,11 +111,18 @@ addBookButton.addEventListener('click', ()=>{
     })
 
     addBookForm.getElementsByClassName("cancel")[0].addEventListener('click', ()=>{
-        if (confirm("Cancel new book entry?")){
+        if (confirm("Cancel book entry?")){
             addBookForm.remove()
         }
     })
 
+    return addBookForm
+}
+
+const addBookButton = document.getElementById("addBookButton")
+addBookButton.addEventListener('click', ()=>{
+    //add book form to the page
+    addBookButton.insertAdjacentElement('afterend', createAddBookForm())
 })
 
 function hueShiftBook(book, title){
@@ -165,7 +169,7 @@ function displayBook(book){
 
     newBook.getElementsByClassName("edit")[0].addEventListener("click", ()=>{
         delete myLibrary[book.getBookHash()]
-        bookshelf.replaceChild()
+        bookshelf.replaceChild(createAddBookForm(book.title, book.author, book.pages, book.isRead), newBook)
     })
 
     addBookButton.insertAdjacentElement('afterend', newBook)
