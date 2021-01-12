@@ -52,7 +52,7 @@ function addBookToLibary(book){
 
 }
 
-function createAddBookForm(title="", author="", pages="", completed=false){
+function createBookForm(title="", author="", pages="", completed=false){
     const addBookForm = htmlToElement(
         `<div class="bookCard-wrapper">
             <form class="addBook-form" autocomplete="off">
@@ -104,7 +104,7 @@ function createAddBookForm(title="", author="", pages="", completed=false){
         //add new book to library
         let newBook = new Book(...values)
         if (addBookToLibary(newBook)){
-            displayBook(newBook)
+            addBookButton.insertAdjacentElement('afterend', createBookCard(newBook))
         }
 
         addBookForm.remove()
@@ -112,7 +112,11 @@ function createAddBookForm(title="", author="", pages="", completed=false){
 
     addBookForm.getElementsByClassName("cancel")[0].addEventListener('click', ()=>{
         if (confirm("Cancel book entry?")){
-            addBookForm.remove()
+            if (title !== ""){
+                addBookForm.replaceWith(createBookCard(new Book(title, author, pages, completed)))
+            }else{
+                addBookForm.remove()
+            }
         }
     })
 
@@ -122,7 +126,7 @@ function createAddBookForm(title="", author="", pages="", completed=false){
 const addBookButton = document.getElementById("addBookButton")
 addBookButton.addEventListener('click', ()=>{
     //add book form to the page
-    addBookButton.insertAdjacentElement('afterend', createAddBookForm())
+    addBookButton.insertAdjacentElement('afterend', createBookForm())
 })
 
 function hueShiftBook(book, title){
@@ -144,7 +148,7 @@ function hueShiftBook(book, title){
 }
 
 
-function displayBook(book){
+function createBookCard(book){
     const bookshelf = document.getElementById("bookshelf")
     let newBook = htmlToElement(`
             <div class="bookCard-wrapper">
@@ -169,16 +173,16 @@ function displayBook(book){
 
     newBook.getElementsByClassName("edit")[0].addEventListener("click", ()=>{
         delete myLibrary[book.getBookHash()]
-        bookshelf.replaceChild(createAddBookForm(book.title, book.author, book.pages, book.isRead), newBook)
+        const editBookForm = createBookForm(book.title, book.author, book.pages, book.isRead)
+        bookshelf.replaceChild(editBookForm, newBook)
     })
 
-    addBookButton.insertAdjacentElement('afterend', newBook)
-
+    return newBook
 }
 
 function displayLibrary(){
     for (let id in myLibrary){
-        displayBook(myLibrary[id])
+        addBookButton.insertAdjacentElement('afterend', createBookCard(myLibrary[id]))
     }
 }
 
