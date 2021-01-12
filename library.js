@@ -43,6 +43,7 @@ function addBookToLibary(book){
     let id = book.getBookHash()
 
     if (myLibrary[id] !== undefined){
+        console.log(myLibrary[id])
         alert("This book already exists. Please edit existing book.")
         return false
     }
@@ -104,7 +105,7 @@ function createBookForm(title="", author="", pages="", completed=false){
         //add new book to library
         let newBook = new Book(...values)
         if (addBookToLibary(newBook)){
-            addBookButton.insertAdjacentElement('afterend', createBookCard(newBook))
+            addBookForm.replaceWith(createBookCard(newBook))
         }
 
         addBookForm.remove()
@@ -167,8 +168,10 @@ function createBookCard(book){
     hueShiftBook(newBook, book.title)
 
     newBook.getElementsByClassName("delete")[0].addEventListener("click", ()=>{
-        delete myLibrary[book.getBookHash()]
-        bookshelf.removeChild(newBook)
+        if(confirm("Delete Book?")){
+            delete myLibrary[book.getBookHash()]
+            bookshelf.removeChild(newBook)
+        }
     })
 
     newBook.getElementsByClassName("edit")[0].addEventListener("click", ()=>{
