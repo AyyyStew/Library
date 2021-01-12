@@ -29,12 +29,18 @@ function Book(title, author, pages, isRead){
     this.isRead = isRead
 }
 
+Book.prototype.getBookHash = function(){
+    //this funciton below is defined outside of the object. probably needs to find a way to
+    //include in the object or make said function a module
+    return getHashCode(this.title + this.author + String(this.pages))
+}
+
 //book collection
 let myLibrary = {};
 function addBookToLibary(book){
     //this is used to tie book to library object.
     //also used to make sure book doesn't exist in library already
-    let id = String(getHashCode(book.title + book.author + String(book.pages)))
+    let id = book.getBookHash()
 
     if (myLibrary[id] !== undefined){
         alert("This book already exists. Please edit existing book.")
@@ -151,13 +157,23 @@ function displayBook(book){
             </div>`)
     
     hueShiftBook(newBook, book.title)
+
+    newBook.getElementsByClassName("delete")[0].addEventListener("click", ()=>{
+        delete myLibrary[book.getBookHash()]
+        bookshelf.removeChild(newBook)
+    })
+
+    newBook.getElementsByClassName("edit")[0].addEventListener("click", ()=>{
+        delete myLibrary[book.getBookHash()]
+        bookshelf.replaceChild()
+    })
+
     addBookButton.insertAdjacentElement('afterend', newBook)
 
 }
 
 function displayLibrary(){
     for (let id in myLibrary){
-        console.log(id)
         displayBook(myLibrary[id])
     }
 }
