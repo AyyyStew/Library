@@ -37,6 +37,7 @@ Book.prototype.getBookHash = function(){
 
 //book collection
 let myLibrary = {};
+let localStorage = window.localStorage
 function addBookToLibary(book){
     //this is used to tie book to library object.
     //also used to make sure book doesn't exist in library already
@@ -49,6 +50,7 @@ function addBookToLibary(book){
     }
 
     myLibrary[id] = book
+    localStorage.setItem("library", JSON.stringify(myLibrary))
     return true
 
 }
@@ -104,6 +106,7 @@ function createBookForm(title="", author="", pages="", completed=false){
 
         //add new book to library
         let newBook = new Book(...values)
+        // console.log(newBook)
         if (addBookToLibary(newBook)){
             addBookForm.replaceWith(createBookCard(newBook))
         }
@@ -169,7 +172,9 @@ function createBookCard(book){
 
     newBook.getElementsByClassName("delete")[0].addEventListener("click", ()=>{
         if(confirm("Delete Book?")){
+            console.log(book)
             delete myLibrary[book.getBookHash()]
+            localStorage.setItem("library", JSON.stringify(myLibrary))
             bookshelf.removeChild(newBook)
         }
     })
@@ -184,14 +189,24 @@ function createBookCard(book){
 }
 
 function displayLibrary(){
+    //check to see if we have anything in local storage
+    let stored_books = JSON.parse(localStorage.getItem("library"))
+    if (stored_books){
+        //go through each book in local storage and covert to custom book type
+        //i miss overloading
+        for (let book_code in stored_books){
+            let book = stored_books[book_code]
+            myLibrary[book_code] = new Book(book.title, book.author, book.pages, book.isRead)
+        }
+    }
     for (let id in myLibrary){
         addBookButton.insertAdjacentElement('afterend', createBookCard(myLibrary[id]))
     }
 }
 
 
-for (let i = 0; i<10; i++){
-    addBookToLibary(new Book("a", "a", i, false))
-}
+// for (let i = 0; i<10; i++){
+//     addBookToLibary(new Book("a", "a", i, false))
+// }
 
 displayLibrary()
