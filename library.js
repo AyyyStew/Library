@@ -22,17 +22,20 @@ function getHashCode(str) {
 
 //actual project
 //constructor function
-function Book(title, author, pages, isRead){
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.isRead = isRead
-}
+class Book{
+    constructor(title, author, pages, isRead){
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.isRead = isRead
+    }
 
-Book.prototype.getBookHash = function(){
-    //this funciton below is defined outside of the object. probably needs to find a way to
-    //include in the object or make said function a module
-    return getHashCode(this.title + this.author + String(this.pages))
+    getBookHash(){
+        //this funciton below is defined outside of the object. probably needs to find a way to
+        //include in the object or make said function a module
+        return getHashCode(this.title + this.author + String(this.pages))
+    }
+
 }
 
 //book collection
